@@ -2,9 +2,11 @@ package util
 
 import (
 	"crypto/sha256"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -88,4 +90,15 @@ func UnixMilliToGmtString(unixMs int64) string {
 func Uint64StringToUint64(str string) uint64 {
 	ui, _ := strconv.ParseUint(str, 10, 64)
 	return ui
+}
+
+func SetupTestRequest(body interface{}, sessionToken string) *http.Request {
+	bodyJson, _ := json.Marshal(body)
+	stringReader := strings.NewReader(string(bodyJson))
+	request, _ := http.NewRequest("", "", stringReader)
+	if sessionToken != "" {
+		cookie := http.Cookie{Name: "sessionToken", Value: sessionToken}
+		request.AddCookie(&cookie)
+	}
+	return request
 }
