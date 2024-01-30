@@ -102,3 +102,13 @@ func SetupTestRequest(body interface{}, sessionToken string) *http.Request {
 	}
 	return request
 }
+
+func TimeDiff(earlyTime time.Time, lateTime time.Time) time.Duration {
+	return lateTime.Sub(earlyTime)
+}
+
+func WasXHoursAgoUTC(t time.Time, hours int) bool {
+	now := time.Now().UTC()
+	duration, _ := time.ParseDuration(strconv.Itoa(hours) + "h")
+	return t.Add(duration).Before(now)
+}

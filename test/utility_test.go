@@ -118,3 +118,23 @@ func TestEmailRegex(t *testing.T) {
 		t.Error()
 	}
 }
+
+func TestWasXHoursAgo(t *testing.T) {
+	now := time.Now()
+	nowMinus11h := time.UnixMilli(now.UnixMilli() - 1000*60*60*11)
+
+	result := util.WasXHoursAgoUTC(nowMinus11h, 10)
+	if result == false {
+		t.Error()
+	}
+}
+
+func TestWasXHoursAgo2(t *testing.T) {
+	now := time.Now()
+	nowMinus9h := time.UnixMilli(now.UnixMilli() - 1000*60*60*9)
+
+	result := util.WasXHoursAgoUTC(nowMinus9h, 10)
+	if result == true {
+		t.Error()
+	}
+}
