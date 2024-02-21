@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"strconv"
 	"strings"
@@ -47,14 +48,11 @@ func HasPrefix(s, prefix string) bool {
 }
 
 func GetHttpRequestBody(req *http.Request) ([]byte, error) {
-	body := req.Body
-	buffer := make([]byte, req.ContentLength)
-
-	_, err := body.Read(buffer)
+	body, err := io.ReadAll(req.Body)
 	if err != nil && Contains(err.Error(), "EOF") == false {
 		return nil, err
 	}
-	return buffer, nil
+	return body, nil
 }
 
 func HasInternet() bool {
