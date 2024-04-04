@@ -48,7 +48,6 @@ func HasPrefix(s, prefix string) bool {
 }
 
 func GetHttpRequestBody(req *http.Request) ([]byte, error) {
-	fmt.Println("UTIL UPDATE")
 	body, err := io.ReadAll(req.Body)
 	if err != nil && Contains(err.Error(), "EOF") == false {
 		return nil, err
